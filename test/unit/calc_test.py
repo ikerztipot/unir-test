@@ -44,6 +44,50 @@ class TestCalculate(unittest.TestCase):
         self.assertRaises(TypeError, self.calc.divide, 0, 0)
         self.assertRaises(TypeError, self.calc.divide, "0", 0)
 
+    # SQRT tests
+    def test_sqrt_positive(self):
+        calc = Calculator()
+        self.assertEqual(calc.sqrt(16), 4.0)
+        self.assertEqual(calc.sqrt(2), pytest.approx(1.4142135623730951))
+        self.assertEqual(calc.sqrt(0), 0.0)
+
+    def test_sqrt_negative(self):
+        calc = Calculator()
+        with self.assertRaises(TypeError) as context:
+            calc.sqrt(-1)
+        self.assertEqual(str(context.exception), "Cannot calculate square root of a negative number")
+
+    def test_sqrt_invalid_type(self):
+        calc = Calculator()
+        with self.assertRaises(TypeError) as context:
+            calc.sqrt("16")
+        self.assertEqual(str(context.exception), "Parameters must be numbers")
+
+    #Log10 tests
+    def test_log10_positive(self):
+        calc = Calculator()
+        self.assertEqual(calc.log10(100), 2.0)
+        self.assertEqual(calc.log10(10), 1.0)
+        self.assertEqual(calc.log10(1), 0.0)
+
+    def test_log10_negative(self):
+        calc = Calculator()
+        with self.assertRaises(TypeError) as context:
+            calc.log10(-1)
+        self.assertEqual(str(context.exception), "Cannot calculate logarithm of zero or negative number")
+
+    def test_log10_zero(self):
+        calc = Calculator()
+        with self.assertRaises(TypeError) as context:
+            calc.log10(0)
+        self.assertEqual(str(context.exception), "Cannot calculate logarithm of zero or negative number")
+
+    def test_log10_invalid_type(self):
+        calc = Calculator()
+        with self.assertRaises(TypeError) as context:
+            calc.log10("10")
+        self.assertEqual(str(context.exception), "Parameters must be numbers")
+
     @patch('app.util.validate_permissions', side_effect=mocked_validation, create=True)
     def test_multiply_method_returns_correct_result(self, _validate_permissions):
         self.assertEqual(4, self.calc.multiply(2, 2))
