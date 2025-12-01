@@ -17,7 +17,7 @@ interactive:
 
 test-unit:
 	rm -rf results && mkdir -p results
-	docker run --rm --volume $(WORKDIR):/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest pytest --cov=app --cov-report=xml:results/coverage.xml --cov-report=html:results/coverage --junit-xml=results/unit_result.xml -m unit . || true
+	docker run --rm --volume $(WORKDIR):/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest bash -c "ls -la /opt/calc/test/unit/ && pytest --cov=app --cov-report=xml:results/coverage.xml --cov-report=html:results/coverage --junit-xml=results/unit_result.xml -m unit ." || true
 	docker run --rm --volume $(WORKDIR):/opt/calc --env PYTHONPATH=/opt/calc -w /opt/calc calculator-app:latest junit2html results/unit_result.xml results/unit_result.html
 
 test-behavior:
